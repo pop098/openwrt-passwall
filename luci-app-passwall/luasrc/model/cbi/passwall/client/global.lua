@@ -60,8 +60,10 @@ local redir_mode_validate = function(self, value, t)
     local localhost_tcp_proxy_mode_v = localhost_tcp_proxy_mode:formvalue(t) or ""
     local localhost_udp_proxy_mode_v = localhost_udp_proxy_mode:formvalue(t) or ""
     local s = tcp_proxy_mode_v .. udp_proxy_mode_v .. localhost_tcp_proxy_mode_v .. localhost_udp_proxy_mode_v
-    if s:find("chnroute") and s:find("returnhome") then
-        return nil, translate("China list cannot be used together with outside China list!")
+    if s:find("returnhome") then
+        if s:find("chnroute") or s:find("gfwlist") then
+            return nil, translate("China list or gfwlist cannot be used together with outside China list!")
+        end
     end
     return value
 end
